@@ -1,0 +1,103 @@
+/* @import './base.css';
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+} */
+
+/* color palette from <https://github.com/vuejs/theme> */
+@import 'tailwindcss';
+
+@theme {
+  --font-satoshiLight: 'SatoshiLight', sans-serif;
+  --font-satoshiMedium: 'SatoshiMedium', sans-serif;
+  --font-satoshiRegular: 'SatoshiRegular', sans-serif;
+  --font-satoshiBold: 'SatoshiBold', sans-serif;
+
+  --font-gooperLight: 'GooperLight', sans-serif;
+  --font-gooperSemibold: 'GooperSemibold', sans-serif;
+  --font-gooperRegular: 'GooperRegular', sans-serif;
+  --font-gooperBold: 'GooperBold', sans-serif;
+
+  --radius: 8px;
+
+  /* --color-primary-purple: #471081; */
+  --color-primary: #fcb706;
+
+  /* Aliases for primary colors */
+  --colors-primary: var(--color-primary);
+  /* --colors-primary-purple: var(--color-primary-purple); */
+
+  /* Synced card theme values */
+  /* --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --color-card-image: #f1f0f0;
+  --color-card-background: #f6f5f5;
+  --color-card-bg: #fafafa;
+  --color-card-cart: #c8ccd033;
+  --color-card-cart-image: #f1f0f0; */
+
+  /* Aliases for card theme colors */
+  /* --colors-card: hsl(var(--card));
+  --colors-card-foreground: hsl(var(--card-foreground));
+  --colors-card-image: var(--color-card-image);
+  --colors-card-background: var(--color-card-background);
+  --colors-card-bg: var(--color-card-bg);
+  --colors-card-cart: var(--color-card-cart);
+  --colors-card-cart-image: var(--color-card-cart-image); */
+}
+
+:root {
+  --font-satoshiLight: 'SatoshiLight', sans-serif;
+  --font-satoshiMedium: 'SatoshiMedium', sans-serif;
+  --font-satoshiRegular: 'SatoshiRegular', sans-serif;
+  --font-satoshiBold: 'SatoshiBold', sans-serif;
+
+  --font-gooperLight: 'GooperLight', sans-serif;
+  --font-gooperSemibold: 'GooperSemibold', sans-serif;
+  --font-gooperRegular: 'GooperRegular', sans-serif;
+  --font-gooperBold: 'GooperBold', sans-serif;
+
+  --radius: 8px;
+
+  /* --color-primary: #471081; */
+  --color-primary: #fcb706;
+
+  /* Synced from Tailwind card theme */
+  /* --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+   --color-card-image: #f1f0f0;
+  --color-card-background: #f6f5f5;
+  --color-card-bg: #fafafa;
+  --color-card-cart: #c8ccd033;
+  --color-card-cart-image: #f1f0f0; */
+}
