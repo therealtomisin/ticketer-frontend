@@ -1,15 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import Login from '@/views/LoginView.vue'
-import Auth from '@/views/AuthView.vue'
 import TicketListView from '@/views/TicketListView.vue'
 import Dashboard from '@/views/DashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 import TicketDetail from '@/views/TicketDetail.vue'
 import VerifyTokenView from '@/views/VerifyTokenView.vue'
+import AuthView from '@/views/AuthView.vue'
 
 const routes = [
   { path: '/', redirect: '/tickets' },
-  { path: '/:mode(login|signup)', component: Auth },
+
+  { path: '/signup', component: AuthView },
+
+  { path: '/login', component: AuthView },
   // { path: '/signup', component: Auth },
   {
     path: '/dashboard',

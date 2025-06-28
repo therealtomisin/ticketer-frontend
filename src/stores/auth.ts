@@ -44,15 +44,10 @@ export const useAuthStore = defineStore('auth', {
       const SIGNUP_MUTATION = gql`
         mutation Signup($input: SignupInput!) {
           signup(input: $input) {
-            user {
-              id
-              firstname
-              lastname
-              email
-            }
             token
-            success
             message
+            success
+            expiresIn
           }
         }
       `
