@@ -15,7 +15,8 @@
           class="w-full mb-3 p-2 border rounded"
           required
         />
-        <input type="file" multiple @change="handleImages" class="w-full mb-3" />
+        <!-- <input type="file" multiple @change="handleImages" class="w-full mb-3" /> -->
+        <ImageUploader />
         <div class="flex justify-end gap-2">
           <button type="button" @click="$emit('close')" class="text-gray-500">Cancel</button>
           <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
@@ -30,20 +31,20 @@
 <script setup lang="ts">
 import { useTicketsStore } from '@/stores/tickets'
 import { ref } from 'vue'
+import ImageUploader from './ImageUploader.vue'
 
 const title = ref('')
 const content = ref('')
-const images = ref<File[]>([])
 const tickets = useTicketsStore()
 
 // const emit = defineEmits(['close', 'created'])
 
-const handleImages = (e: Event): void => {
-  const input = e.target as HTMLInputElement
-  if (input?.files) {
-    images.value = Array.from(input.files)
-  }
-}
+// const handleImages = (e: Event): void => {
+//   const input = e.target as HTMLInputElement
+//   if (input?.files) {
+//     images.value = Array.from(input.files)
+//   }
+// }
 
 const createTicket = async () => {
   // Replace with actual submit logic
@@ -52,7 +53,6 @@ const createTicket = async () => {
     await tickets.createTicket(title.value, content.value)
     title.value = ''
     content.value = ''
-    images.value = []
   } catch (e) {
     console.log(e)
     // alert("Couldn't create ticket", e.message)

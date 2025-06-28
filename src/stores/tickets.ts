@@ -1,109 +1,8 @@
-// import { apolloClient } from '@/lib/apollo'
-// import { gql } from '@apollo/client/core'
-// import { defineStore } from 'pinia'
-
-// export const useTicketsStore = defineStore('tickets', {
-//   state: () => ({
-//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//     tickets: [] as any[],
-//     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//     ticket: null as any,
-//   }),
-//   actions: {
-//     async fetchTickets() {
-//       const GET_TICKETS = gql`
-//         query GetTickets {
-//           tickets {
-//             id
-//             title
-//             content
-//             status
-//             createdAt
-//           }
-//         }
-//       `
-//       const { data } = await apolloClient.query({ query: GET_TICKETS })
-//       this.tickets = data.tickets
-//     },
-
-//     async fetchTicket(id: string) {
-//       const GET_TICKET = gql`
-//         query GetTicket($id: ID!) {
-//           ticket(id: $id) {
-//             id
-//             title
-//             content
-//             createdAt
-//             status
-//             comments {
-//               id
-//               content
-//               createdAt
-//             }
-//           }
-//         }
-//       `
-//       const { data } = await apolloClient.query({
-//         query: GET_TICKET,
-//         variables: { id },
-//       })
-//       this.ticket = data.ticket
-//     },
-
-//     async createTicket(title: string, content: string, images: string[] = []) {
-//       const CREATE_TICKET = gql`
-//         mutation CreateTicket($input: CreateTicketInput!) {
-//           createTicket(input: $input) {
-//             ticket {
-//               id
-//               ticketKey
-//               title
-//               content
-//               media
-//             }
-//             errors
-//           }
-//         }
-//       `
-//       const { data } = await apolloClient.mutate({
-//         mutation: CREATE_TICKET,
-//         variables: { input: { title, content, media: images } },
-//       })
-//       this.tickets = [...this.tickets, data.createTicket.ticket]
-//     },
-
-//     async updateTicket(id: string, title: string, content: string, images: string[] = []) {
-//       const UPDATE_TICKET = gql`
-//         mutation UpdateTicket($id: ID!, $input: UpdateTicketInput!) {
-//           updateTicket(id: $id, input: $input) {
-//             ticket {
-//               id
-//               title
-//               content
-//               updatedAt
-//             }
-//           }
-//         }
-//       `
-//       const { data } = await apolloClient.mutate({
-//         mutation: UPDATE_TICKET,
-//         variables: { id, input: { title, content, images } },
-//       })
-//       const index = this.tickets.findIndex((t) => t.id === id)
-//       if (index !== -1) {
-//         this.tickets[index] = data.updateTicket.ticket
-//       }
-//       if (this.ticket && this.ticket.id === id) {
-//         this.ticket = data.updateTicket.ticket
-//       }
-//     },
-//   },
-// })
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { apolloClient } from '@/lib/apollo'
 import { gql } from '@apollo/client/core'
 import { defineStore } from 'pinia'
+import { useImagesStore } from './images'
 
 export const useTicketsStore = defineStore('tickets', {
   state: () => ({
@@ -204,7 +103,7 @@ export const useTicketsStore = defineStore('tickets', {
       this.ticket = data.ticket
     },
 
-    async createTicket(title: string, content: string, images: string[] = []) {
+    async createTicket(title: string, content: string) {
       const CREATE_TICKET = gql`
         mutation CreateTicket($input: CreateTicketsInput!) {
           createTicket(input: $input) {
@@ -219,9 +118,11 @@ export const useTicketsStore = defineStore('tickets', {
           }
         }
       `
+      const imageFromStore = useImagesStore().image
+
       const { data } = await apolloClient.mutate({
         mutation: CREATE_TICKET,
-        variables: { input: { title, content, media: images } },
+        variables: { input: { title, content, media: [imageFromStore] } },
       })
       this.tickets = [...this.tickets, data.createTicket.ticket]
     },
@@ -313,7 +214,7 @@ export const useTicketsStore = defineStore('tickets', {
         console.log('created comment >>>', data.createComment.comment)
 
         this.ticket.comments = [
-          ...this.ticket.comments.filter((c) => c.id !== tempId),
+          ...this.ticket.comments.filter((c: any) => c.id !== tempId),
           data.createComment.comment,
         ].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
       } catch (error) {
@@ -321,7 +222,7 @@ export const useTicketsStore = defineStore('tickets', {
           if (ticket.id === ticketId) {
             return {
               ...ticket,
-              comments: ticket.comments.filter((c) => c.id !== tempId),
+              comments: ticket.comments.filter((c: any) => c.id !== tempId),
             }
           }
           return ticket

@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="handleSignup" class="space-y-4">
-    <input v-model="firstName" placeholder="Email" class="w-full p-2 border rounded" />
-    <input v-model="lastName" placeholder="Email" class="w-full p-2 border rounded" />
+    <input v-model="firstName" placeholder="First Name" class="w-full p-2 border rounded" />
+    <input v-model="lastName" placeholder="Last Name" class="w-full p-2 border rounded" />
     <input v-model="email" placeholder="Email" class="w-full p-2 border rounded" />
     <input
       v-model="password"
@@ -30,7 +30,7 @@ const confirmPassword = ref('')
 const firstName = ref('')
 const lastName = ref('')
 const router = useRouter()
-const auth = useAuthStore()
+const authStore = useAuthStore()
 
 const handleSignup = async () => {
   if (password.value !== confirmPassword.value) {
@@ -39,8 +39,16 @@ const handleSignup = async () => {
   }
 
   try {
-    await auth.signup(firstName.value, lastName.value, email.value, password.value)
-    router.push('/dashboard')
+    const auth = await authStore.signup(
+      firstName.value,
+      lastName.value,
+      email.value,
+      password.value,
+    )
+
+    if (auth.success) {
+      router.push('/verify')
+    }
   } catch (e: unknown) {
     if (e instanceof Error) {
       alert('Signup failed: ' + e.message)

@@ -30,6 +30,8 @@ const handleLogin = async () => {
     instance.dismiss()
     if (login.success) {
       router.push('/tickets')
+    } else {
+      $toast.error(login.message || 'Login failed!')
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {

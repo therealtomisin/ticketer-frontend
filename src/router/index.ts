@@ -5,10 +5,11 @@ import TicketListView from '@/views/TicketListView.vue'
 import Dashboard from '@/views/DashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 import TicketDetail from '@/views/TicketDetail.vue'
+import VerifyTokenView from '@/views/VerifyTokenView.vue'
 
 const routes = [
-  { path: '/', redirect: '/dashboard' },
-  { path: '/auth/:mode(login|signup)', component: Auth },
+  { path: '/', redirect: '/tickets' },
+  { path: '/:mode(login|signup)', component: Auth },
   // { path: '/signup', component: Auth },
   {
     path: '/dashboard',
@@ -18,10 +19,16 @@ const routes = [
   {
     path: '/tickets',
     component: TicketListView,
+    meta: { requresAuth: true },
   },
   {
     path: '/tickets/:id',
     component: TicketDetail,
+    meta: { requresAuth: true },
+  },
+  {
+    path: '/verify',
+    component: VerifyTokenView,
   },
 ]
 

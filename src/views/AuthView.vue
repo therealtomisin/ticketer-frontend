@@ -15,5 +15,5 @@ import LoginForm from '@/components/forms/LoginForm.vue'
 import Signupform from '@/components/forms/SignUpform.vue'
 
 const route = useRoute()
-const isLogin = route.params.mode === 'login'
+const isLogin = route.params.a === 'login'
 </script>
