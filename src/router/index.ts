@@ -22,12 +22,12 @@ const routes = [
   {
     path: '/tickets',
     component: TicketListView,
-    meta: { requresAuth: true },
+    meta: { requiresAuth: true },
   },
   {
     path: '/tickets/:id',
     component: TicketDetail,
-    meta: { requresAuth: true },
+    meta: { requiresAuth: true },
   },
   {
     path: '/verify',
