@@ -8,7 +8,7 @@ export const useImagesStore = defineStore('images', {
     image: null as string | null,
   }),
   actions: {
-    setImage(image: string) {
+    setImage(image: string | null) {
       this.image = image
     },
   },

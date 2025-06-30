@@ -22,6 +22,12 @@ const password = ref('')
 const router = useRouter()
 const auth = useAuthStore()
 
+// Expose refs for testing
+defineExpose({
+  email,
+  password,
+})
+
 const handleLogin = async () => {
   const $toast = useToast()
   try {
@@ -31,7 +37,12 @@ const handleLogin = async () => {
     if (login.success) {
       router.push('/tickets')
     } else {
-      $toast.error(login.message || 'Login failed!')
+      if (login.message.includes('not verified')) {
+        $toast.error('Please verify your email before logging in.')
+        router.push('/verify')
+      } else {
+        $toast.error(login.message || 'Login failed!')
+      }
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {

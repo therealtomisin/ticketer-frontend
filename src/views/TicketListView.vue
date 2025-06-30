@@ -1,59 +1,3 @@
-<!-- <template>
-  <div class="p-6 wfull">
-    <div class="flex justify-between items-center mb-4">
-      <h1 class="text-2xl font-bold">Tickets</h1>
-      <button
-        @click="showModal = true"
-        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        Create Ticket
-      </button>
-    </div>
-
-    <div v-if="tickets.length === 0" class="text-center text-gray-500">
-      No tickets yet. Click "Create Ticket" to open a new one.
-    </div>
-
-    <ul v-else class="space-y-4">
-      <li
-        v-for="ticket in tickets"
-        :key="ticket.id"
-        class="p-4 border rounded cursor-pointer hover:bg-gray-100"
-        @click="goToDetail(ticket.id)"
-      >
-        <h2 class="font-semibold text-lg">{{ ticket.title }}</h2>
-        <p class="text-gray-600">{{ ticket.content }}</p>
-      </li>
-    </ul>
-
-    <CreateTicketModal v-if="showModal" @close="showModal = false" @created="fetchTickets" />
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import CreateTicketModal from '../components/CreateTicketModal.vue'
-
-const tickets = ref([] as any[])
-const showModal = ref(false)
-const router = useRouter()
-
-const fetchTickets = () => {
-  // Replace with actual fetch logic
-  tickets.value = [
-    { id: 1, title: 'Login issue', content: 'Unable to login to account.' },
-    { id: 2, title: 'Bug in checkout', content: 'Cart not updating on checkout.' },
-  ]
-}
-
-const goToDetail = (id: string) => {
-  router.push(`/tickets/${id}`)
-}
-
-fetchTickets()
-</script> -->
-
 <template>
   <div class="p-6 w-full max-w-7xl mx-auto">
     <!-- Dashboard Header -->
@@ -102,7 +46,7 @@ fetchTickets()
             <th class="px-4 py-3 text-muted-foreground font-medium">Content</th>
             <th class="px-4 py-3 text-muted-foreground font-medium">Status</th>
             <th class="px-4 py-3 text-muted-foreground font-medium">Created At</th>
-            <th class="px-4 py-3 text-muted-foreground font-medium">Options</th>
+            <!-- <th class="px-4 py-3 text-muted-foreground font-medium">Options</th> -->
           </tr>
         </thead>
         <tbody>
@@ -123,7 +67,7 @@ fetchTickets()
               </span>
             </td>
             <td class="px-4 py-3">{{ formatDate(ticket.createdAt) }}</td>
-            <td class="px-4 py-3 relative">
+            <!-- <td class="px-4 py-3 relative">
               <OptionsDropdown
                 :ticketId="ticket.id"
                 :isClosed="ticket.closed"
@@ -131,7 +75,7 @@ fetchTickets()
                 @delete="handleDelete"
                 @close="handleClose"
               />
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
@@ -187,15 +131,13 @@ const formatDate = (dateStr: string) => {
   return date.toLocaleDateString() + ' ' + date.toLocaleTimeString()
 }
 
-const handleDelete = (id: string) => {
-  console.log('Delete ticket', id)
-  // Implement delete logic
-}
+// const handleDelete = (id: string) => {
+//   console.log('Delete ticket', id)
+// }
 
-const handleClose = (id: string) => {
-  console.log('Close ticket', id)
-  // Implement close logic
-}
+// const handleClose = (id: string) => {
+//   console.log('Close ticket', id)
+// }
 
 const getRandomColor = () => {
   const colors = ['#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#6366F1', '#14B8A6']

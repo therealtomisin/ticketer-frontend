@@ -115,6 +115,8 @@ export const useTicketsStore = defineStore('tickets', {
               media
             }
             errors
+            message
+            success
           }
         }
       `
@@ -125,6 +127,10 @@ export const useTicketsStore = defineStore('tickets', {
         variables: { input: { title, content, media: [imageFromStore] } },
       })
       this.tickets = [...this.tickets, data.createTicket.ticket]
+      return {
+        success: data.createTicket.success,
+        message: data.createTicket.message,
+      }
     },
 
     async updateTicket(id: number, update: { title?: string; content?: string; status: string }) {

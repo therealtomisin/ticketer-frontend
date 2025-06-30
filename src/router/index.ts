@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import Login from '@/views/LoginView.vue'
 import TicketListView from '@/views/TicketListView.vue'
-import Dashboard from '@/views/DashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 import TicketDetail from '@/views/TicketDetail.vue'
 import VerifyTokenView from '@/views/VerifyTokenView.vue'
@@ -14,11 +13,6 @@ const routes = [
 
   { path: '/login', component: AuthView },
   // { path: '/signup', component: Auth },
-  {
-    path: '/dashboard',
-    component: Dashboard,
-    meta: { requiresAuth: true },
-  },
   {
     path: '/tickets',
     component: TicketListView,
@@ -41,9 +35,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _, next) => {
-  const auth = useAuthStore()
-  if (to.meta.requiresAuth && !auth.token) {
-    next('/login')
+  if (to.path !== '/login' && to.path !== '/signup') {
+    const auth = useAuthStore()
+    if (to.meta.requiresAuth && !auth.token) {
+      next('/login')
+    } else {
+      next()
+    }
   } else {
     next()
   }

@@ -15,7 +15,6 @@
           class="w-full mb-3 p-2 border rounded"
           required
         />
-        <!-- <input type="file" multiple @change="handleImages" class="w-full mb-3" /> -->
         <ImageUploader />
         <div class="flex justify-end gap-2">
           <button type="button" @click="$emit('close')" class="text-gray-500">Cancel</button>
@@ -32,30 +31,28 @@
 import { useTicketsStore } from '@/stores/tickets'
 import { ref } from 'vue'
 import ImageUploader from './ImageUploader.vue'
+import { useToast } from 'vue-toast-notification'
+import { useImagesStore } from '@/stores/images'
 
 const title = ref('')
 const content = ref('')
 const tickets = useTicketsStore()
-
-// const emit = defineEmits(['close', 'created'])
-
-// const handleImages = (e: Event): void => {
-//   const input = e.target as HTMLInputElement
-//   if (input?.files) {
-//     images.value = Array.from(input.files)
-//   }
-// }
+const toast = useToast()
+const imageStore = useImagesStore()
 
 const createTicket = async () => {
-  // Replace with actual submit logic
-  //   console.log({ title: title.value, content: content.value, images: images.value })
   try {
-    await tickets.createTicket(title.value, content.value)
+    const createdTicket = await tickets.createTicket(title.value, content.value)
+    if (!createdTicket.success) {
+      toast.success('Ticket created successfully!')
+    } else {
+      console.error(createdTicket.message || 'Failed to create ticket')
+    }
     title.value = ''
     content.value = ''
+    imageStore.setImage(null)
   } catch (e) {
     console.log(e)
-    // alert("Couldn't create ticket", e.message)
   }
 }
 </script>
