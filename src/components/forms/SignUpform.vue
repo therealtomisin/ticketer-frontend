@@ -59,7 +59,7 @@
     <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Sign Up</button>
 
     <p class="text-sm text-gray-500">
-      Already have an account? <router-link to="/login" class="text-indigo-600">Log in</router-link>
+      Already have an account? <a href="/login" class="text-indigo-600">Log in</a>
     </p>
   </form>
 </template>

@@ -10,7 +10,7 @@
     <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Login</button>
 
     <p class="text-sm text-gray-500">
-      Don't have an account? <router-link to="/signup" class="text-indigo-600">Sign Up</router-link>
+      Don't have an account? <a href="/signup" class="text-indigo-600">Sign Up</a>
     </p>
   </form>
 </template>
