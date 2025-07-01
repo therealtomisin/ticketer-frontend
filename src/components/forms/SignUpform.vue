@@ -23,17 +23,23 @@
   <form @submit.prevent="handleSignup" class="space-y-4">
     <div>
       <input v-model="firstName" placeholder="First Name" class="w-full p-2 border rounded" />
-      <p v-if="firstNameError" class="text-red-500 text-sm">{{ firstNameError }}</p>
+      <p v-if="firstNameError" class="text-red-500 text-sm" data-testid="first-name-error">
+        {{ firstNameError }}
+      </p>
     </div>
 
     <div>
       <input v-model="lastName" placeholder="Last Name" class="w-full p-2 border rounded" />
-      <p v-if="lastNameError" class="text-red-500 text-sm">{{ lastNameError }}</p>
+      <p v-if="lastNameError" class="text-red-500 text-sm" data-testid="last-name-error">
+        {{ lastNameError }}
+      </p>
     </div>
 
     <div>
       <input v-model="email" placeholder="Email" class="w-full p-2 border rounded" />
-      <p v-if="emailError" class="text-red-500 text-sm">{{ emailError }}</p>
+      <p v-if="emailError" class="text-red-500 text-sm" data-testid="email-error">
+        {{ emailError }}
+      </p>
     </div>
 
     <div>
@@ -43,7 +49,10 @@
         placeholder="Password"
         class="w-full p-2 border rounded"
       />
-      <p v-if="passwordError" class="text-red-500 text-sm">{{ passwordError }}</p>
+      <!-- <p v-if="passwordError" class="text-red-500 text-sm">{{ passwordError }}</p> -->
+      <p v-if="passwordError" class="text-red-500 text-sm" data-testid="password-error">
+        {{ passwordError }}
+      </p>
     </div>
 
     <div>
@@ -53,7 +62,14 @@
         placeholder="Confirm Password"
         class="w-full p-2 border rounded"
       />
-      <p v-if="confirmPasswordError" class="text-red-500 text-sm">{{ confirmPasswordError }}</p>
+      <!-- <p v-if="confirmPasswordError" class="text-red-500 text-sm">{{ confirmPasswordError }}</p> -->
+      <p
+        v-if="confirmPasswordError"
+        class="text-red-500 text-sm"
+        data-testid="confirm-password-error"
+      >
+        {{ confirmPasswordError }}
+      </p>
     </div>
 
     <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Sign Up</button>
