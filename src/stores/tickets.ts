@@ -39,7 +39,7 @@ export const useTicketsStore = defineStore('tickets', {
       this.tickets = data.tickets
     },
 
-    async fetchTicketsByAgent() {
+    async fetchTicketsByUser() {
       const GET_TICKETS = gql`
         query {
           ticketsByUser {
@@ -115,11 +115,11 @@ export const useTicketsStore = defineStore('tickets', {
               media
             }
             errors
-            message
             success
-          }
-        }
-      `
+            message
+            }
+            }
+            `
       const imageFromStore = useImagesStore().image
 
       const { data } = await apolloClient.mutate({

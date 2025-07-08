@@ -43,7 +43,7 @@ const imageStore = useImagesStore()
 const createTicket = async () => {
   try {
     const createdTicket = await tickets.createTicket(title.value, content.value)
-    if (!createdTicket.success) {
+    if (createdTicket.success) {
       toast.success('Ticket created successfully!')
     } else {
       console.error(createdTicket.message || 'Failed to create ticket')

@@ -95,6 +95,7 @@ import { useRouter } from 'vue-router'
 import CreateTicketModal from '../components/CreateTicketModal.vue'
 // import OptionsDropdown from '../components/OptionsDropdown.vue'
 import { useTicketsStore } from '@/stores/tickets'
+import { formatDate } from '@/lib/helpers'
 
 const showModal = ref(false)
 const searchTerm = ref('')
@@ -102,7 +103,7 @@ const router = useRouter()
 const store = useTicketsStore()
 
 const fetchTickets = async () => {
-  await store.fetchTickets()
+  await store.fetchTicketsByUser()
   store.tickets.forEach((ticket) => {
     ticket.color = getRandomColor()
   })
@@ -126,10 +127,10 @@ const goToDetail = (id: string) => {
   router.push(`/tickets/${id}`)
 }
 
-const formatDate = (dateStr: string) => {
-  const date = new Date(dateStr)
-  return date.toLocaleDateString() + ' ' + date.toLocaleTimeString()
-}
+// const formatDate = (dateStr: string) => {
+//   const date = new Date(dateStr)
+//   return date.toLocaleDateString() + ' ' + date.toLocaleTimeString()
+// }
 
 // const handleDelete = (id: string) => {
 //   console.log('Delete ticket', id)

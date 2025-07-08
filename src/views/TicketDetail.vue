@@ -1,63 +1,3 @@
-<!-- <template>
-  <div class="p-6 max-w-4xl mx-auto">
-    <div class="mb-6">
-      <h1 class="text-2xl font-bold mb-2">
-        {{ ticket ? ticket.title : 'This is the ticket title' }}
-      </h1>
-      <p class="text-gray-700">{{ ticket ? ticket.content : 'This is the ticket contetn' }}</p>
-    </div>
-
-    <div class="border-t pt-4">
-      <h2 class="text-xl font-semibold mb-2">Comments</h2>
-      <ul class="space-y-2 mb-4">
-        <li v-for="comment in comments" :key="comment.id" class="p-3 border rounded">
-          <p class="text-sm text-gray-800">{{ comment.text }}</p>
-        </li>
-      </ul>
-      <form @submit.prevent="addComment" class="flex gap-2">
-        <input
-          v-model="newComment"
-          placeholder="Add a comment..."
-          class="flex-1 p-2 border rounded"
-          required
-        />
-        <button type="submit" class="bg-blue-600 text-white px-4 rounded">Send</button>
-      </form>
-    </div>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { useTicketsStore } from '@/stores/tickets'
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
-const ticketId = route.params.id
-const store = useTicketsStore()
-
-const ticket = ref<Record<string, any> | null>(null)
-const comments = ref([] as Record<string, any>[])
-const newComment = ref('')
-
-const fetchTicket = async () => {
-  // Replace with real API
-  await store.fetchTicket(String(ticketId))
-  ticket.value = store.ticket
-  comments.value = [
-    { id: 1, text: 'Looking into it now.' },
-    { id: 2, text: 'Any update on this?' },
-  ]
-}
-
-const addComment = () => {
-  comments.value.push({ id: Date.now(), text: newComment.value })
-  newComment.value = ''
-}
-
-fetchTicket()
-</script> -->
-
 <template>
   <div v-if="ticket" class="max-w-4xl mx-auto p-2 lg:p-6 space-y-6">
     <!-- Ticket Info -->
@@ -66,30 +6,6 @@ fetchTicket()
       <p class="text-gray-700 whitespace-pre-line">{{ ticket.content }}</p>
 
       <div class="text-sm text-gray-500">Ticket Key: {{ ticket?.ticketKey ?? '' }}</div>
-
-      <!-- <div class="flex items-center space-x-2 text-sm">
-        <span>Status:</span>
-        <div v-if="!editingStatus" class="cursor-pointer" @click="editingStatus = true">
-          <span
-            class="px-2 py-1 rounded-full text-xs font-medium"
-            :class="statusColor(ticket.status)"
-          >
-            {{ ticket.status }}
-          </span>
-        </div>
-        <select
-          v-else
-          v-model="ticket.status"
-          @blur="editingStatus = false"
-          class="text-sm border rounded px-2 py-1 focus:outline-none"
-        >
-          <option value="UNASSIGNED" @click="updateTicket(ticket.id, { status: 'UNASSIGNED' })">
-            UNASSIGNED
-          </option>
-          <option value="ACTIVE">ACTIVE</option>
-          <option value="CLOSED">CLOSED</option>
-        </select>
-      </div> -->
 
       <div class="flex items-center space-x-2 text-sm">
         <span>Status:</span>
@@ -101,24 +17,13 @@ fetchTicket()
             {{ ticket.status }}
           </span>
         </div>
-        <!-- <select
-          v-else
-          v-model="localStatus"
-          @blur="updateTicketStatus"
-          @change="updateTicketStatus"
-          class="text-sm border rounded px-2 py-1 focus:outline-none"
-        >
-          <option value="UNASSIGNED">UNASSIGNED</option>
-          <option value="ACTIVE">ACTIVE</option>
-          <option value="CLOSED">CLOSED</option>
-        </select> -->
       </div>
       <div class="text-sm text-gray-500">Deadline: {{ formatDate(ticket.deadline) }}</div>
 
       <div v-if="ticket?.media?.length" class="space-y-2 pt-4">
         <h3 class="font-semibold text-sm text-gray-600">Attachments</h3>
         <ul class="list-disc ml-6 text-blue-600">
-          <li v-for="(file, index) in ticket.attachments" :key="index">
+          <li v-for="(file, index) in ticket.media" :key="index">
             <a :href="file" target="_blank" class="underline">{{ file }}</a>
           </li>
         </ul>
@@ -128,21 +33,6 @@ fetchTicket()
     <!-- Comments Chat Section -->
     <div class="bg-white p-4 rounded-2xl shadow space-y-4 max-h-[400px] overflow-y-auto">
       <h3 class="text-lg font-semibold">Conversation</h3>
-      <!-- <div v-for="comment in ticket.comments" :key="comment.id" class="flex mb-3">
-        <div
-          :class="[
-            'p-3 rounded-lg text-sm max-w-[80%]',
-            comment.createdByType === 'Agent'
-              ? 'ml-auto bg-blue-100 text-blue-800'
-              : 'mr-auto bg-gray-100 text-gray-700',
-          ]"
-        >
-          {{ comment.content }}
-          <div class="text-xs text-gray-400 mt-1 text-right">
-            {{ formatDate(comment.created_at) }}
-          </div>
-        </div>
-      </div> -->
       <div v-for="comment in ticket.comments" :key="comment.id" class="flex mb-3">
         <div
           :class="[
@@ -205,7 +95,7 @@ fetchTicket()
   </div>
 </template>
 
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import { useTicketsStore } from '@/stores/tickets'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -213,100 +103,13 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const ticketStore = useTicketsStore()
 const ticketId = Number(route.params.id)
-// const ticket = ref()
-const ticket = computed(() => ticketStore.ticket)
 const newComment = ref('')
 const editingStatus = ref(false)
-
-console.log('thic ticket >>> ', ticket)
-
-const formatDate = (dateStr: string) => {
-  const date = new Date(dateStr)
-  return date.toLocaleString()
-}
-
-// Assign color classes to statuses
-const statusColor = (status: string) => {
-  switch (status) {
-    case 'ACTIVE':
-      return 'bg-yellow-100 text-yellow-800'
-    case 'CLOSED':
-      return 'bg-green-100 text-green-800'
-    case 'UNASSIGNED':
-    default:
-      return 'bg-gray-100 text-gray-700'
-  }
-}
-
-const addComment = async () => {
-  try {
-    console.log('the ticket is >> ', ticket.value.id)
-    console.log(newComment.value)
-    await ticketStore.createComment(ticket.value.id, newComment.value || '', 'Agent')
-    newComment.value = '' // Clear input after successful submission
-  } catch (error) {
-    console.error('Failed to post comment:', error)
-    // Show error message to user
-  }
-  // if (!newComment.value.trim()) return
-
-  // ticket.value.comments.push({
-  //   id: Date.now(),
-  //   senderType: 'User',
-  //   content: newComment.value,
-  //   ticketId: ticket.value.id,
-  //   // created_at: new Date().toISOString(),
-  // })
-  // newComment.value = ''
-}
-
-const updateTicket = async (id: number, update: any) => {
-  try {
-    ticket.value.status = update.status
-    await ticketStore.updateTicket(id, update)
-  } catch (e) {}
-}
-
-onMounted(async () => {
-  await ticketStore.fetchTicket(ticketId)
-  // ticket = ticketStore.ticket
-
-  console.log(ticketStore.ticket)
-})
-</script> -->
-<script setup lang="ts">
-import { useTicketsStore } from '@/stores/tickets'
-import { computed, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-
-// interface Comment {
-//   id: number | string
-//   content: string
-//   createdByType: 'Agent' | 'User'
-//   createdAt: string
-//   status?: 'pending'
-// }
-
-const route = useRoute()
-const ticketStore = useTicketsStore()
-const ticketId = Number(route.params.id)
-const newComment = ref('')
-const editingStatus = ref(false)
-const localStatus = ref<string>('') // For status editing
 
 // Use computed property for reactive ticket data
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ticket = computed<any | null>(() => ticketStore.ticket)
 
-// Initialize local status when ticket loads
-watch(
-  ticket,
-  (newTicket) => {
-    if (newTicket) {
-      localStatus.value = newTicket.status
-    }
-  },
-  { immediate: true },
-)
 
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr)
@@ -330,28 +133,13 @@ const addComment = async () => {
 
   try {
     if (!ticket.value) throw new Error('No ticket loaded')
-    await ticketStore.createComment(ticket.value.id, newComment.value, 'Agent')
+    await ticketStore.createComment(ticket.value.id, newComment.value, 'User')
     newComment.value = ''
   } catch (error) {
     console.error('Failed to post comment:', error)
     // Consider adding user-facing error feedback here
   }
 }
-
-// const updateTicketStatus = async () => {
-//   if (!ticket.value) return
-
-//   try {
-//     await ticketStore.updateTicket(ticket.value.id, { status: localStatus.value })
-//     editingStatus.value = false
-//   } catch (error: any) {
-//     console.error('Failed to update ticket status:', error)
-//     // Revert to original status if update fails
-//     if (ticket.value) {
-//       localStatus.value = ticket.value.status
-//     }
-//   }
-// }
 
 onMounted(async () => {
   try {
